@@ -1,18 +1,33 @@
-## Getting Started
+# LifeTracker
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+A Java-based personal activity tracking application.
 
-## Folder Structure
+LifeTracker is designed to help users organize and track
+their everyday activities, including movies, TV shows,
+books, and workouts.
 
-The workspace contains two folders by default, where:
+## Project Goals
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- Track personal activities
+- Monitor completion progress
+- Organize activities by category
+- Store activity data between sessions
+- Display personal activity statistics
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## Technologies
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+- Java
+- Git
+- GitHub
 
-## Dependency Management
+## Development Status
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Currently in development.
+
+## Future Features
+
+- Add, view, edit, and delete activities
+- Activity search and filtering
+- Persistent file storage
+- Statistics dashboard
+- Automated testing

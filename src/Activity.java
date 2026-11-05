@@ -32,6 +32,14 @@ public class Activity {
         this.completed = true;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "ID: " + id +

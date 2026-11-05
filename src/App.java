@@ -1,17 +1,28 @@
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.IOException;
 
 public class App {
 
     private static Scanner scanner = new Scanner(System.in);
     private static ActivityManager manager = new ActivityManager();
 
+    private static final String DATA_FILE = "data/activities.txt";
+
     public static void main(String[] args) {
+
+        // Load previously saved activities
+        try {
+            manager.loadActivities(FileStorage.loadActivities(DATA_FILE));
+            System.out.println("Saved activities loaded successfully.");
+        } catch (IOException e) {
+            System.out.println("Could not load saved activities: " + e.getMessage());
+        }
 
         boolean running = true;
 
-        System.out.println("================================");
+        System.out.println("\n================================");
         System.out.println("         LIFETRACKER");
         System.out.println("================================");
 
@@ -43,6 +54,7 @@ public class App {
                     filterActivities();
                     break;
                 case 8:
+                    saveData();
                     running = false;
                     System.out.println("Thank you for using LifeTracker!");
                     break;
@@ -80,6 +92,8 @@ public class App {
         }
 
         Activity activity = manager.addActivity(title, category);
+        saveData();
+
         System.out.println("Activity added successfully!");
         System.out.println(activity);
     }
@@ -101,6 +115,7 @@ public class App {
         int id = readInt("Enter the activity ID to complete: ");
 
         if (manager.completeActivity(id)) {
+            saveData();
             System.out.println("Activity marked as completed!");
         } else {
             System.out.println("Activity not found.");
@@ -111,6 +126,7 @@ public class App {
         int id = readInt("Enter the activity ID to delete: ");
 
         if (manager.deleteActivity(id)) {
+            saveData();
             System.out.println("Activity deleted successfully!");
         } else {
             System.out.println("Activity not found.");
@@ -148,6 +164,8 @@ public class App {
         }
 
         manager.updateActivity(id, title, category);
+        saveData();
+
         System.out.println("Activity updated successfully!");
     }
 
@@ -169,6 +187,14 @@ public class App {
             viewActivities(manager.filterByCompletion(false));
         } else {
             System.out.println("Invalid filter choice.");
+        }
+    }
+
+    private static void saveData() {
+        try {
+            FileStorage.saveActivities(manager.getActivities(), DATA_FILE);
+        } catch (IOException e) {
+            System.out.println("Warning: Could not save activities: " + e.getMessage());
         }
     }
 

@@ -1,3 +1,4 @@
+
 public class Activity {
 
     private int id;
@@ -6,10 +7,15 @@ public class Activity {
     private boolean completed;
 
     public Activity(int id, String title, String category) {
+        this(id, title, category, false);
+    }
+
+    // Constructor used when loading saved activities
+    public Activity(int id, String title, String category, boolean completed) {
         this.id = id;
         this.title = title;
         this.category = category;
-        this.completed = false;
+        this.completed = completed;
     }
 
     public int getId() {
@@ -47,5 +53,4 @@ public class Activity {
                 " | Category: " + category +
                 " | Completed: " + completed;
     }
-
 }

@@ -11,7 +11,6 @@ public class ActivityManager {
         nextId = 1;
     }
 
-    // Add a new activity
     public Activity addActivity(String title, String category) {
         Activity activity = new Activity(nextId, title, category);
         activities.add(activity);
@@ -20,12 +19,10 @@ public class ActivityManager {
         return activity;
     }
 
-    // Retrieve all activities
     public ArrayList<Activity> getActivities() {
         return new ArrayList<Activity>(activities);
     }
 
-    // Find an activity using its ID
     public Activity findActivityById(int id) {
         for (Activity activity : activities) {
             if (activity.getId() == id) {
@@ -36,7 +33,6 @@ public class ActivityManager {
         return null;
     }
 
-    // Mark an activity as completed
     public boolean completeActivity(int id) {
         Activity activity = findActivityById(id);
 
@@ -48,7 +44,6 @@ public class ActivityManager {
         return true;
     }
 
-    // Delete an activity
     public boolean deleteActivity(int id) {
         Activity activity = findActivityById(id);
 
@@ -60,7 +55,6 @@ public class ActivityManager {
         return true;
     }
 
-    // Update an activity
     public boolean updateActivity(int id, String title, String category) {
         Activity activity = findActivityById(id);
 
@@ -73,7 +67,6 @@ public class ActivityManager {
         return true;
     }
 
-    // Search activities by title
     public ArrayList<Activity> searchActivities(String keyword) {
         ArrayList<Activity> results = new ArrayList<Activity>();
 
@@ -87,7 +80,6 @@ public class ActivityManager {
         return results;
     }
 
-    // Filter activities by category
     public ArrayList<Activity> filterByCategory(String category) {
         ArrayList<Activity> results = new ArrayList<Activity>();
 
@@ -100,7 +92,6 @@ public class ActivityManager {
         return results;
     }
 
-    // Filter by completion status
     public ArrayList<Activity> filterByCompletion(boolean completed) {
         ArrayList<Activity> results = new ArrayList<Activity>();
 
@@ -113,4 +104,18 @@ public class ActivityManager {
         return results;
     }
 
+    // Restore activities from saved data
+    public void loadActivities(ArrayList<Activity> savedActivities) {
+        activities.clear();
+        activities.addAll(savedActivities);
+
+        // Ensure new activities receive unique IDs
+        nextId = 1;
+
+        for (Activity activity : activities) {
+            if (activity.getId() >= nextId) {
+                nextId = activity.getId() + 1;
+            }
+        }
+    }
 }

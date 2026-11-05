@@ -1,5 +1,7 @@
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ActivityManager {
 
@@ -15,7 +17,6 @@ public class ActivityManager {
         Activity activity = new Activity(nextId, title, category);
         activities.add(activity);
         nextId++;
-
         return activity;
     }
 
@@ -29,7 +30,6 @@ public class ActivityManager {
                 return activity;
             }
         }
-
         return null;
     }
 
@@ -104,12 +104,10 @@ public class ActivityManager {
         return results;
     }
 
-    // Restore activities from saved data
     public void loadActivities(ArrayList<Activity> savedActivities) {
         activities.clear();
         activities.addAll(savedActivities);
 
-        // Ensure new activities receive unique IDs
         nextId = 1;
 
         for (Activity activity : activities) {
@@ -117,5 +115,59 @@ public class ActivityManager {
                 nextId = activity.getId() + 1;
             }
         }
+    }
+
+    // Statistics methods
+
+    public int getTotalActivities() {
+        return activities.size();
+    }
+
+    public int getCompletedCount() {
+        return filterByCompletion(true).size();
+    }
+
+    public int getIncompleteCount() {
+        return filterByCompletion(false).size();
+    }
+
+    public double getCompletionRate() {
+        if (activities.isEmpty()) {
+            return 0.0;
+        }
+
+        return (getCompletedCount() * 100.0) / getTotalActivities();
+    }
+
+    public Map<String, Integer> getCategoryCounts() {
+        Map<String, Integer> counts = new LinkedHashMap<String, Integer>();
+
+        for (Activity activity : activities) {
+            String category = activity.getCategory();
+
+            if (counts.containsKey(category)) {
+                counts.put(category, counts.get(category) + 1);
+            } else {
+                counts.put(category, 1);
+            }
+        }
+
+        return counts;
+    }
+
+    public String getMostActiveCategory() {
+        Map<String, Integer> counts = getCategoryCounts();
+
+        String mostActive = "None";
+        int highestCount = 0;
+
+        for (Map.Entry<String, Integer> entry : counts.entrySet()) {
+            if (entry.getValue() > highestCount) {
+                highestCount = entry.getValue();
+                mostActive = entry.getKey();
+            }
+        }
+
+        return mostActive;
     }
 }

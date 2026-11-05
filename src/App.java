@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -12,7 +13,6 @@ public class App {
 
     public static void main(String[] args) {
 
-        // Load previously saved activities
         try {
             manager.loadActivities(FileStorage.loadActivities(DATA_FILE));
             System.out.println("Saved activities loaded successfully.");
@@ -54,6 +54,9 @@ public class App {
                     filterActivities();
                     break;
                 case 8:
+                    displayDashboard();
+                    break;
+                case 9:
                     saveData();
                     running = false;
                     System.out.println("Thank you for using LifeTracker!");
@@ -75,7 +78,8 @@ public class App {
         System.out.println("5. Search activities");
         System.out.println("6. Edit activity");
         System.out.println("7. Filter activities");
-        System.out.println("8. Exit");
+        System.out.println("8. View statistics dashboard");
+        System.out.println("9. Exit");
         System.out.println("===============================");
     }
 
@@ -188,6 +192,41 @@ public class App {
         } else {
             System.out.println("Invalid filter choice.");
         }
+    }
+
+    private static void displayDashboard() {
+        System.out.println("\n================================");
+        System.out.println("       LIFETRACKER DASHBOARD");
+        System.out.println("================================");
+
+        System.out.println("Total activities: "
+                + manager.getTotalActivities());
+
+        System.out.println("Completed: "
+                + manager.getCompletedCount());
+
+        System.out.println("Incomplete: "
+                + manager.getIncompleteCount());
+
+        System.out.printf("Completion rate: %.1f%%%n",
+                manager.getCompletionRate());
+
+        System.out.println("\n--- CATEGORY BREAKDOWN ---");
+
+        Map<String, Integer> categoryCounts = manager.getCategoryCounts();
+
+        if (categoryCounts.isEmpty()) {
+            System.out.println("No category data available.");
+        } else {
+            for (Map.Entry<String, Integer> entry : categoryCounts.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+        }
+
+        System.out.println("\nMost active category: "
+                + manager.getMostActiveCategory());
+
+        System.out.println("================================");
     }
 
     private static void saveData() {
